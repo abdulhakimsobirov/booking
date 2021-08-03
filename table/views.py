@@ -3,11 +3,11 @@ from table.forms import OrderForm
 from django.shortcuts import redirect, render
 import datetime
 from datetime import date, timedelta
-
+from django.shortcuts import get_object_or_404
 from .models import *
 from rest_framework.parsers import JSONParser
 from rest_framework import mixins, generics, serializers
-from .serializers import CategorySerializer, OrderSerializer, RoomSerializer
+from .serializers import CategoryGetFkObjectSerializer, CategorySerializer, OrderSerializer, RoomGetFkObjectSerializer, RoomSerializer
 
 
 
@@ -93,10 +93,23 @@ class RoomGenericApiView(generics.GenericAPIView,
     lookup_field = "id"
 
     def get(self, request, id = None):
+        # if id:
+        #     return self.retrieve(request)
+        # else: 
+        #     return self.list(request)
+
+       
         if id:
-            return self.retrieve(request)
-        else: 
-            return self.list(request)
+            queryset = get_object_or_404(Room, id)
+            if queryset:
+                serializer = RoomGetFkObjectSerializer(queryset, many=False)
+                return Response(serializer.data)
+            else:
+                return Response({"ok": False, 'data': "The information in the id you provided is not available"})
+        else:
+            queryset = Room.objects.all()
+            serializer = RoomGetFkObjectSerializer(queryset, many=True)
+            return Response(serializer.data)
 
     def post(self, request):
         return self.create(request)

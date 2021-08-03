@@ -57,6 +57,7 @@
     <div class="row">
 
         {% for c in cat %}
+            <div>{{c}}</div>
         
 
         {% for room in c.room_set.all %}
@@ -71,7 +72,7 @@
         <div class="col-10">
             {% for d in day %}
             <div data-bs-toggle="modal" data-bs-target="#exampleModal" class="date btn btn-primary "
-                data-roominfo="{{room}}" data-cat="{{c}}" data-price="{{c.price}}" data-date="{{d}}"  >
+                data-roominfo="{{room}}" data-cat="{{c}}" data-price="{{c.price}}" data-date="{{d}}" title="{{d}}"  >
                 {{d.0}}{{d.1}}
 
 
@@ -119,11 +120,13 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script>
 
+
         $(".date").click(function () {
             $("[name='start_date']").val($(this).data("date"));
             $("[name='room']").val($(this).data("roominfo"));
             $('#date').val($(this).data('date'))
-            alert($('#date').val($(this).data('date')))
+            
+            
         });
 
         
@@ -138,11 +141,24 @@
         // }
 
 
+
+        
+        // Date 2019-04-04T00:00:00.000Z
+
+        // console.log(stringToDate('77-78-7980'));
+        // // Invalid Date
+
+        
+
+
         var from = $("#date").val();
         var to = $("#date").val();
         var f = new Date(from);
         var t = new Date(to);
         
+        var stringDate = $('#date').val($(this).data('date'))
+        var date = new Date(stringDate) 
+        alert(date)
 
 
 
