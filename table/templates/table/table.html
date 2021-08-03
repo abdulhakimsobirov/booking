@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{% load crispy_forms_tags %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Document</title>
+
+    <style>
+        .room,
+        .date {
+            border: 1px solid black;
+            margin: 25px 1px;
+        }
+
+        .date {
+            width: 20px ! important;
+            height: 20px 10px ! important;
+            margin: 20px 1px;
+            padding: 5px 0px;
+
+        }
+
+        .date:hover {
+            background-color: aqua;
+            color: rgb(9, 10, 10);
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div class="col-10" style="padding: 0px 14px; margin: 0px 220px;">
+        {% for d in day %}
+        <div class="date1 btn" data-date="{{d}}" title="{{d}}" style="margin: 20px 1px; padding: 5px 0px; color:indigo; font-style: oblique; font-weight: 1000;">
+
+            {{d.0}}{{d.1}}
+        </div>
+
+        {% endfor %}
+
+    </div>
+    <div class="row">
+
+        {% for c in cat %}
+        
+
+        {% for room in c.room_set.all %}
+
+
+        <div class="col-2">
+
+            <div class="room">
+                {{room}}</div>
+        </div>
+
+        <div class="col-10">
+            {% for d in day %}
+            <div data-bs-toggle="modal" data-bs-target="#exampleModal" class="date btn btn-primary "
+                data-roominfo="{{room}}" data-cat="{{c}}" data-price="{{c.price}}" data-date="{{d}}"  >
+                {{d.0}}{{d.1}}
+
+
+            </div>
+            {% endfor %}
+
+        </div>
+
+        {% endfor %}
+
+        {% endfor %}
+
+    </div>
+
+    <!-- Button trigger modal -->
+
+
+    <!-- Modal -->
+    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content ">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body btn btn-info">
+                    <input type="text" id="date">
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="forma form-group ">
+                            {{ orderform.room | as_crispy_field}}
+                            {{ orderform.start_date | as_crispy_field}}
+                            {{ orderform.finish_date | as_crispy_field}}
+                            {{ orderform.first_name | as_crispy_field}}
+                            {{ orderform.last_name | as_crispy_field}}
+                            {{ orderform.phone_number | as_crispy_field}}
+                            {{ orderform.order_cost | as_crispy_field}}
+                            <input type="submit" class="btn btn-success">
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>
+
+        $(".date").click(function () {
+            $("[name='start_date']").val($(this).data("date"));
+            $("[name='room']").val($(this).data("roominfo"));
+            $('#date').val($(this).data('date'))
+            alert($('#date').val($(this).data('date')))
+        });
+
+        
+        // dates = document.getElementsByClassName('date')
+        // console.log(dates[0])
+
+        // for (let date in dates){
+        //     dates[date].addEventListener('click', function(){
+        //     document.getElementById('date').value = dates[date].dataset.date
+        //     // document.getElementById('room').value = dates[date].dataset.roominfo
+        // })
+        // }
+
+
+        var from = $("#date").val();
+        var to = $("#date").val();
+        var f = new Date(from);
+        var t = new Date(to);
+        
+
+
+
+        
+
+    </script>
+
+</body>
+
+</html>
