@@ -4,7 +4,7 @@ from django.db.models.fields import CharField
 # Create your models here.
 class Category(models.Model):
     category = models.CharField(max_length=50)
-    price = models.IntegerField(blank=True, null=True)
+    
 
 
     def __str__(self):
@@ -15,6 +15,7 @@ class Room(models.Model):
     person_number = models.IntegerField()
     floor = CharField(max_length=64)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    price = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return f"room{str(self.room_number)}"

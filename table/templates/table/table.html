@@ -20,69 +20,127 @@
     <title>Document</title>
 
     <style>
-        .room,
-        .date {
-            border: 1px solid black;
-            margin: 25px 1px;
+        .room {
+            margin-top: 22px;
+            margin-bottom: 22px;
+            width: 70%;
+            color: #f5f1f1;
+            background-color: #df744a;
         }
 
+
         .date {
-            width: 20px ! important;
-            height: 20px 10px ! important;
-            margin: 20px 1px;
-            padding: 5px 0px;
+            width: 0px 20px ! important;
+            height: 20px 15px ! important;
+            margin-top: 20px;
+            padding: 7.73px 7.73px;
+            border-radius: 0 !important;
+            border: 1px solid rgb(183, 235, 255);
+            background-color: #4484ce;
 
         }
 
         .date:hover {
-            background-color: aqua;
-            color: rgb(9, 10, 10);
+            background-color: rgb(183, 235, 255);
+            color: #4484ce;
+            transition: 1s;
+            
         }
+
+        .vl {
+            border-left: 4px solid #4484ce;
+        }
+
+        .modal-body {
+            color: #f5f1f1 !important;
+        }
+
+        #room_type {
+            background-color: #ec576b;
+            text-align: center;
+            font-size: 25px;
+            color: #f5f1f1;
+            width: 100%;
+            
+        }
+        #room_type:hover {
+            background-color: #f19f40;
+            transition: 1s;
+            
+        }
+
+        body {
+            background-color: #d9d9d9;
+            /* overflow: hidden; */
+        }
+
+        .row {
+            margin: 0 !important;
+        }
+        #first, #second {
+            background-color: #4484ce;
+            color: whitesmoke;
+        }
+        #first:hover, #second:hover {
+            background-color: rgb(183, 235, 255);
+            color: #4484ce;
+            transition: 1s;
+        }
+    </style>
+
+
     </style>
 
 </head>
 
 
 <body>
-    <div class="col-10" style="padding: 0px 14px; margin: 0px 220px;">
-        {% for d in day %}
-        <div class="date1 btn" data-date="{{d}}" title="{{d}}" style="margin: 20px 1px; padding: 5px 0px; color:indigo; font-style: oblique; font-weight: 1000;">
+    <div class="row">
+        <div id="room_type" style="background-color: #f19f40; font-size: 32px;">Booking</div>
 
-            {{d.0}}{{d.1}}
+        <div class="col-2"></div>
+        <div class="col-10 vl">
+
+
+            <div id="first" style="border: 2px solid #f5f1f1; text-align: center;  display: inline-block; width: 100%;"
+            data-month={{ first_month.1 }}>{{ first_month.0 }}</div>
+            <div id="second" style="border: 2px solid #f5f1f1; text-align: center; display: inline-block;" data-month={{ second_month.1 }}>
+                {{ second_month.0 }}</div>
+
         </div>
-
-        {% endfor %}
-
     </div>
     <div class="row">
 
         {% for c in cat %}
-            <div>{{c}}</div>
-        
+        <div id="room_type">{{c}}</div>
+
 
         {% for room in c.room_set.all %}
 
 
-        <div class="col-2">
+        <div class=" col-2" style="text-align: center;">
 
-            <div class="room">
-                {{room}}</div>
+            <span class="room btn">
+                {{room}}</span>
         </div>
 
-        <div class="col-10">
-            {% for d in day %}
-            <div data-bs-toggle="modal" data-bs-target="#exampleModal" class="date btn btn-primary "
-                data-roominfo="{{room}}" data-cat="{{c}}" data-price="{{c.price}}" data-date="{{d}}" title="{{d}}"  >
-                {{d.0}}{{d.1}}
+        <div class="col-10 vl">
+            <table>
+                {% for d in day %}
+                <td data-bs-toggle="modal" data-bs-target="#exampleModal" class="date btn btn-primary"
+                    data-roominfo="{{room}}" data-catprice="{{room.price}}" data-price="{{c.price}}" data-date="{{d}}" title="{{d}}">
+                    {{d.0}}{{d.1}}
 
 
-            </div>
-            {% endfor %}
+
+                </td>
+
+                {% endfor %}
+            </table>
 
         </div>
-
         {% endfor %}
-
+        <div class="vl"></div>
         {% endfor %}
 
     </div>
@@ -91,23 +149,46 @@
 
 
     <!-- Modal -->
-    <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog ">
-            <div class="modal-content ">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                <div class="modal-body btn btn-info">
-                    <input type="text" id="date">
+            <div class="modal-content bg-success">
+                <button type="button" class="btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-body btn">
                     <form method="POST">
                         {% csrf_token %}
                         <div class="forma form-group ">
-                            {{ orderform.room | as_crispy_field}}
-                            {{ orderform.start_date | as_crispy_field}}
-                            {{ orderform.finish_date | as_crispy_field}}
-                            {{ orderform.first_name | as_crispy_field}}
-                            {{ orderform.last_name | as_crispy_field}}
-                            {{ orderform.phone_number | as_crispy_field}}
-                            {{ orderform.order_cost | as_crispy_field}}
-                            <input type="submit" class="btn btn-success">
+                            <div class="row">
+                                {{ orderform.room | as_crispy_field}}
+                            </div>
+                            
+                            <div class="row">
+
+                                <div class="col">{{ orderform.start_date | as_crispy_field}}</div>
+                                <div class="col">{{ orderform.finish_date | as_crispy_field}}</div>
+                                
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col">{{ orderform.first_name | as_crispy_field}}</div>
+                                <div class="col">{{ orderform.last_name | as_crispy_field}}</div>
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col">{{ orderform.phone_number | as_crispy_field}}</div>
+                                <div class="col">{{ orderform.order_cost | as_crispy_field}}</div>
+
+                            </div>
+
+
+
+                            <button type="button" style="float: left; margin-top: 20px;" class="btn btn-secondary"
+                                data-bs-dismiss="modal" aria-label="Close">Close</button>
+
+
+                            <input type="submit" style="float: right; margin-top: 20px;" class="btn btn-light">
                         </div>
                     </form>
 
@@ -117,55 +198,56 @@
     </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script>
 
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ];
+        
 
+        var text1 = Number($("#first").text())
+        var text2 = Number($("#second").text())
+        $("#first").text(monthNames[text1-1])
+        $("#second").text(monthNames[text2-1])
+        
+
+        f = Number($("#first").data('month'))
+        f = Math.floor((f / 31) * 100)
+        s = Number($("#second").data('month'))
+        s = Math.floor((s / 31) * 100)
+        $("#first").css("width", `${f}%`)
+        $("#second").css("width", `${s}%`)
         $(".date").click(function () {
-            $("[name='start_date']").val($(this).data("date"));
             $("[name='room']").val($(this).data("roominfo"));
-            $('#date').val($(this).data('date'))
+            let date = $(this).data("date")
+            var d = date.split('/')
+            console.log(d)
+            a = d[2] + "-" + d[1] + "-" + d[0]
+            c = Number(d[0]) + 1
+            if (c < 10){
+                c = "0"+c
+            } else{
+                c = c
+            }
             
             
+            b = d[2] + "-" + d[1] + "-" + String(c)
+            console.log(a, b)
+            $("[name='start_date']").val(a);
+            $("[name='finish_date']").val(b);
+            $("[name='order_cost']").val($(this).data("catprice"));
+
+
+
         });
 
-        
-        // dates = document.getElementsByClassName('date')
-        // console.log(dates[0])
 
-        // for (let date in dates){
-        //     dates[date].addEventListener('click', function(){
-        //     document.getElementById('date').value = dates[date].dataset.date
-        //     // document.getElementById('room').value = dates[date].dataset.roominfo
-        // })
-        // }
-
-
-
-        
-        // Date 2019-04-04T00:00:00.000Z
-
-        // console.log(stringToDate('77-78-7980'));
-        // // Invalid Date
-
-        
-
-
-        var from = $("#date").val();
-        var to = $("#date").val();
-        var f = new Date(from);
-        var t = new Date(to);
-        
-        var stringDate = $('#date').val($(this).data('date'))
-        var date = new Date(stringDate) 
-        alert(date)
-
-
-
-        
 
     </script>
 
 </body>
 
 </html>
+

@@ -7,8 +7,13 @@ from django.shortcuts import get_object_or_404
 from .models import *
 from rest_framework.parsers import JSONParser
 from rest_framework import mixins, generics, serializers
-from .serializers import CategoryGetFkObjectSerializer, CategorySerializer, OrderSerializer, RoomGetFkObjectSerializer, RoomSerializer
-
+from .serializers import (
+    CategoryGetFkObjectSerializer,
+    CategorySerializer,
+    OrderSerializer,
+    RoomGetFkObjectSerializer,
+    RoomSerializer,
+)
 
 
 today = date.today()
@@ -21,19 +26,19 @@ days = []
 for add in range(31):
     o = timedelta(days=add)
     w = n + o
-    future.append(w.strftime('%d/%m/%Y'))
-
-print(future)
-#     w.strftime('%d/%m/%Y')
-#     days.append(w)
-# print(days)
-
-# for day in future:
-#     days.append(day.split(","))
+    future.append(w.strftime("%d/%m/%Y"))
 
 
-# day = (datetime.datetime.strptime(i, "%d-%m-%Y") for i in days)
-# print(day)
+f = future[0][3:5]
+first_month = [f"{int(f)}", 0]
+second_month = [f"{int(f)+1}", 0]
+for item in future:
+    
+    if f == item[3:5]:
+        first_month[1] += 1
+    else:
+        second_month[1] += 1
+
 
 def table(request):
     cat = Category.objects.all()
@@ -42,114 +47,28 @@ def table(request):
 
     if request.method == "POST":
         orderform = OrderForm(request.POST)
+        print(orderform)
         if orderform.is_valid():
             orderform.save()
+            print("1111111111111111111")
             return redirect("table")
+            
 
-    return render(request, "table/table.html", {"cat": cat, "day": future, "orderform": orderform})
+    return render(
+        request,
+        "table/table.html",
+        {
+            "cat": cat,
+            "day": future,
+            "orderform": orderform,
+            "second_month": second_month,
+            "first_month": first_month,
+        },
+    )
+
 
 def order_cost():
     pass
 
 
-class CatgegoryGenericApiView(generics.GenericAPIView, 
-                                mixins.ListModelMixin, 
-                                mixins.CreateModelMixin,
-                                mixins.UpdateModelMixin,
-                                mixins.RetrieveModelMixin,
-                                mixins.DestroyModelMixin):
-    serializer_class = CategorySerializer
-    queryset = Category.objects.all()
-    lookup_field = "id"
-
-    def get(self, request, id = None):
-        if id:
-            return self.retrieve(request)
-        else: 
-            return self.list(request)
-
-    def post(self, request):
-        return self.create(request)
-
-    def put(self, request, id = None):
-        if id:
-            return self.update(request, id)
-        return Response({"error":'id not found'})
-
-    def delete(self, request, id = None):
-        if id:
-            return self.destroy(request, id)
-        return Response({"error": "id not found"})
-
-
-class RoomGenericApiView(generics.GenericAPIView, 
-                                mixins.ListModelMixin, 
-                                mixins.CreateModelMixin,
-                                mixins.UpdateModelMixin,
-                                mixins.RetrieveModelMixin,
-                                mixins.DestroyModelMixin):
-    serializer_class = RoomSerializer
-    queryset = Room.objects.all()
-    lookup_field = "id"
-
-    def get(self, request, id = None):
-        # if id:
-        #     return self.retrieve(request)
-        # else: 
-        #     return self.list(request)
-
-       
-        if id:
-            queryset = get_object_or_404(Room, id)
-            if queryset:
-                serializer = RoomGetFkObjectSerializer(queryset, many=False)
-                return Response(serializer.data)
-            else:
-                return Response({"ok": False, 'data': "The information in the id you provided is not available"})
-        else:
-            queryset = Room.objects.all()
-            serializer = RoomGetFkObjectSerializer(queryset, many=True)
-            return Response(serializer.data)
-
-    def post(self, request):
-        return self.create(request)
-
-    def put(self, request, id = None):
-        if id:
-            return self.update(request, id)
-        return Response({"error":'id not found'})
-    def delete(self, request, id = None):
-        if id:
-            return self.destroy(request, id)
-        return Response({"error": "id not found"})
-class OrderGenericApiView(generics.GenericAPIView, 
-                                mixins.ListModelMixin, 
-                                mixins.CreateModelMixin,
-                                mixins.UpdateModelMixin,
-                                mixins.RetrieveModelMixin,
-                                mixins.DestroyModelMixin):
-    serializer_class = OrderSerializer
-    queryset = Order.objects.all()
-    lookup_field = "id"
-
-    def get(self, request, id = None):
-        if id:
-            return self.retrieve(request)
-        else: 
-            return self.list(request)
-
-    def post(self, request):
-        return self.create(request)
-
-    def put(self, request, id = None):
-        if id:
-            return self.update(request, id)
-        return Response({"error":'id not found'})
-
-    def delete(self, request, id = None):
-        if id:
-            return self.destroy(request, id)
-        return Response({"error": "id not found"})    
-
-    
 
