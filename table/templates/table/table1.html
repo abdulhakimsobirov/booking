@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <title>Booking</title>
+    <style>
+        .content-info {
+            background: #f9f9f9;
+            padding: 40px 0;
+            background-size: cover !important;
+            background-position: top center !important;
+            background-repeat: no-repeat !important;
+            position: relative;
+            padding-bottom: 100px
+        }
+
+        table {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #dedede
+        }
+
+        table thead tr th {
+            padding: 5px 5px;
+            border: 1px solid #dedede;
+            color: #000
+        }
+
+        table.table-striped tbody tr:nth-of-type(odd) {
+            background: #f9f9f9
+        }
+
+        table.result-point tr td.number {
+            width: 100px;
+            position: relative
+        }
+
+        .text-left {
+            text-align: left !important
+        }
+
+        table tr td {
+            padding: 10px 20px;
+            border: 1px solid #dedede
+        }
+
+        table.result-point tr td .fa.fa-caret-up {
+            color: green
+        }
+
+        table.result-point tr td .fa {
+            font-size: 20px;
+            position: absolute;
+            right: 20px
+        }
+
+        table tr td {
+            padding: 8px 8px;
+            border: 1px solid #dedede
+        }
+
+        table tr td img {
+            max-width: 32px;
+            float: left;
+            margin-right: 11px;
+            margin-top: 1px;
+            border: 1px solid #dedede
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+
+        </thead>
+    </table>
+    
+        <div class="container paddings-mini"></div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table-striped table-responsive table-hover result-point">
+
+                        <thead class="point-table-head">
+                            
+                            {% for d in day %}
+                            
+                            <tr>
+                                
+                                    <span class="text-center">{{d.0}}{{d.1}}</span>
+                                    <span> </span>
+                                
+                            </tr>
+                            
+                            {% endfor %}
+                        
+                        </thead>
+                    
+                        <tbody class="text-center">
+                            <tr>
+                            <div class="row">
+
+                                {% for c in cat %}
+                                <td id="room_type">{{c}}</td>
+                        
+                        
+                        
+                                {% for room in c.room_set.all %}
+                        
+                        
+                                <div class="row" style="text-align: center;">
+                        
+                                    <td class="room btn">
+                                        {{room}}</td>
+                        
+                                </div>
+                    
+
+
+                            <tr>
+                               {% for d in day %}
+
+                               <td data-bs-toggle="modal" data-bs-target="#exampleModal" style="font-weight: 600;"
+                               data-roominfo="{{room}}" data-catprice="{{room.price}}" data-price="{{c.price}}" data-date="{{d}}" title="{{d}}">
+                               {{d.0}}{{d.1}}
+           
+           
+           
+                                </td>
+                                {% endfor %}
+                            </tr>
+
+                                                
+                            {% endfor %}
+                            
+                            {% endfor %}
+                    
+                        </div>
+
+                            
+                    </tr>
+                        </tbody>
+                        <tbody>
+
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+<div class="col-2">
+
+    {% for c in cat %}
+    <td id="room_type">{{c}}</td>
+
+
+
+    {% for room in c.room_set.all %}
+
+
+    <div class="row" style="text-align: center;">
+
+        <td class="room btn">
+            {{room}}</td>
+
+    </div>
+
+
+    {% endfor %}
+    <div class="vl"></div>
+    {% endfor %}
+
+</div>
+
+
+
+
+
+   
+</body>
+</html>

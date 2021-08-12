@@ -24,8 +24,10 @@
             margin-top: 22px;
             margin-bottom: 22px;
             width: 70%;
-            color: #f5f1f1;
-            background-color: #df744a;
+            color: #a64ac9;
+            font-weight: 900;
+            background-color: #17e9e0;
+            box-shadow:2px 2px 10px 10px rgb(160, 160, 160); 
         }
 
 
@@ -35,15 +37,18 @@
             margin-top: 20px;
             padding: 7.73px 7.73px;
             border-radius: 0 !important;
-            border: 1px solid rgb(183, 235, 255);
-            background-color: #4484ce;
+            border: 1px solid #15db95;
+            background-color: #ffffff;
+            
+            
 
         }
 
         .date:hover {
-            background-color: rgb(183, 235, 255);
-            color: #4484ce;
-            transition: 1s;
+            background-color: #ffffff;
+            color: #57ba98;
+            
+            
             
         }
 
@@ -56,7 +61,7 @@
         }
 
         #room_type {
-            background-color: #ec576b;
+            background-color: #53900f;
             text-align: center;
             font-size: 25px;
             color: #f5f1f1;
@@ -64,13 +69,13 @@
             
         }
         #room_type:hover {
-            background-color: #f19f40;
+            
             transition: 1s;
+            
             
         }
 
         body {
-            background-color: #d9d9d9;
             /* overflow: hidden; */
         }
 
@@ -86,17 +91,19 @@
             color: #4484ce;
             transition: 1s;
         }
-    </style>
-
 
     </style>
+
 
 </head>
 
 
 <body>
     <div class="row">
-        <div id="room_type" style="background-color: #f19f40; font-size: 32px;">Booking</div>
+        <div id="room_type" style="background-color: #f19f40; font-size: 32px;">Booking
+
+        </div>
+
 
         <div class="col-2"></div>
         <div class="col-10 vl">
@@ -115,6 +122,7 @@
         <div id="room_type">{{c}}</div>
 
 
+
         {% for room in c.room_set.all %}
 
 
@@ -122,6 +130,7 @@
 
             <span class="room btn">
                 {{room}}</span>
+
         </div>
 
         <div class="col-10 vl">
@@ -234,14 +243,16 @@
             
             
             b = d[2] + "-" + d[1] + "-" + String(c)
-            console.log(a, b)
             $("[name='start_date']").val(a);
             $("[name='finish_date']").val(b);
             $("[name='order_cost']").val($(this).data("catprice"));
 
+            
 
 
         });
+
+
 
 
 
