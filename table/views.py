@@ -56,7 +56,7 @@ def table(request):
 
     return render(
         request,
-        "table/index.html",
+        "table/table.html",
         {
             "cat": cat,
             "day": future,
